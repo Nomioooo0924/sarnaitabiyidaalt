@@ -18,8 +18,8 @@ while ($row = $res->fetch_assoc()) {
             <td>{$row['price']}₮</td>
             <td>{$row['category']}</td>
             <td>
-                <a href='edit_product.php?id={$row['id']}'>Засах</a> |
-                <a href='delete_product.php?id={$row['id']}'>Устгах</a>
+                <a href='edit_product.php?id={$row['id']}'><i class='fas fa-edit'></i></a> |
+                <a href='delete_product.php?id={$row['id']}'><i class='fas fa-trash-alt'></i></a>
             </td>
           </tr>";
 }
@@ -27,3 +27,5 @@ while ($row = $res->fetch_assoc()) {
 echo "</table>";
 ?>
 <a href="admin_panel.php">Буцах</a>
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">

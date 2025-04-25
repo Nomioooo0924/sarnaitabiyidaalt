@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <h2>➕ Шинэ бараа нэмэх</h2>
-<form method="post">
+<form method="post" class="edit-form">
     Нэр: <input type="text" name="name"><br>
     Тайлбар: <input type="text" name="description"><br>
     Үнэ: <input type="number" name="price"><br>
@@ -44,3 +44,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </select><br>
     <button type="submit">Нэмэх</button>
 </form>
+<link rel="stylesheet" href="../style.css">

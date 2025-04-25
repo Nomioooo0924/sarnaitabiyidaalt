@@ -22,9 +22,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 ?>
 
 <h2>🔐 Админ нэвтрэх</h2>
+<link rel="stylesheet" href="../style.css">
 <?php if (isset($error)) echo "<p style='color:red;'>$error</p>"; ?>
-<form method="post">
-    Имэйл: <input type="email" name="email"><br>
-    Нууц үг: <input type="password" name="password"><br>
+<form method="post" class=admin>
+    <label for="">И-мэйл:</label>
+    <input type="email" name="email"><br><br>
+    <label for="">Нууц үг:</label> 
+    <input type="password" name="password"><br><br>
     <button type="submit">Нэвтрэх</button>
 </form>

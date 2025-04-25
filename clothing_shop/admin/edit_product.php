@@ -33,22 +33,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Барааг шинэчилж оруулах
     $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, image = ?, category = ? WHERE id = ?");
-    $stmt->bind_param("ssdsii", $name, $desc, $price, $image, $category, $id);
+    $stmt->bind_param("ssdssi", $name, $desc, $price, $image, $category, $id);
     if ($stmt->execute()) {
-        echo "✅ Амжилттай засагдлаа! <a href='admin_panel.php'>Буцах</a>";
+        echo "✅ Амжилттай засагдлаа! ";
     } else {
         echo "Алдаа: " . $conn->error;
     }
 }
 ?>
 
+<a href="admin_panel.php" style="text-decoration:none; color:#333;">
+    <i class="fas fa-arrow-left"></i>
+</a>
 <h2>Засах бараа: <?php echo $name; ?></h2>
-<form method="post">
-    Нэр: <input type="text" name="name" value="<?php echo $name; ?>"><br>
-    Тайлбар: <input type="text" name="description" value="<?php echo $description; ?>"><br>
-    Үнэ: <input type="number" name="price" step="0.01" value="<?php echo $price; ?>"><br>
-    Зургийн нэр (assets дотор): <input type="text" name="image" value="<?php echo $image; ?>"><br>
-    Ангилал:
+<form method="post" class="edit-form">
+    <label for="">Нэр: </label>
+    <input type="text" name="name" value="<?php echo $name; ?>"><br><br>
+    <label for="">Тайлбар:</label>
+    <input type="text" name="description" value="<?php echo $description; ?>"><br><br>
+    <label for="">Үнэ:</label> 
+    <input type="number" name="price" step="0.01" value="<?php echo $price; ?>"><br><br>
+    <label for="">Зургийн нэр (assets дотор):</label> 
+    <input type="text" name="image" value="<?php echo $image; ?>"><br><br>
+    <label for="">Ангилал:</label> 
     <select name="category">
         <option value="Цамц" <?= $category == 'Цамц' ? 'selected' : 'Цамц' ?>>Цамц</option>
         <option value="Өмд" <?= $category == 'Өмд' ? 'selected' : '' ?>>Өмд</option>
@@ -59,8 +66,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <option value="Пиджак" <?= $category == 'Пиджак' ? 'selected' : '' ?>>Пиджак</option>
         <option value="Спорт хувцас" <?= $category == 'Спорт хувцас' ? 'selected' : '' ?>>Спорт хувцас</option>
         <option value="Унтлагын хувцас" <?= $category == 'Унтлагын хувцас' ? 'selected' : '' ?>>Унтлагын хувцас</option>
-    </select><br>
+    </select><br><br>
     <button type="submit">Шинэчлэх</button>
 </form>
 
-<a href="admin_panel.php">Буцах</a>
+
+<link rel="stylesheet" href="../style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">

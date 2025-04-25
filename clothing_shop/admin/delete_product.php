@@ -17,10 +17,11 @@ if (isset($_GET['id'])) {
         }
     } else {
         // Баталгаажуулалтын хуудас гаргах
-        echo "<h2>Та энэ барааг устгахыг хүсэж байна уу?</h2>";
+        echo "<h2 style='text-align:left'>Та энэ барааг устгахыг хүсэж байна уу?</h2>";
         echo "<a href='delete_product.php?id=$id&confirm=yes'>Тийм</a> | <a href='admin_panel.php'>Үгүй</a>";
     }
 } else {
     echo "Бараа олдсонгүй.";
 }
 ?>
+<link rel="stylesheet" href="../style.css">
