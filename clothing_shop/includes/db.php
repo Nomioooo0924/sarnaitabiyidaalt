@@ -1,12 +1,12 @@
 <?php
-$host = 'localhost';
-$user = 'root';
-$pass = '';
-$dbname = 'clothing_shop';
+$servername = "localhost";
+$username = "root"; // таны AMPP-д root хэрэглэдэг
+$password = "Nomio0924"; // таны өгсөн нууц үг
+$dbname = "clothing_shop"; // таны датабэйсийн нэр
 
-$conn = new mysqli($host, $user, $pass, $dbname);
+$conn = mysqli_connect($servername, $username, $password, $dbname);
 
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if (!$conn) {
+    die("Холболт амжилтгүй боллоо: " . mysqli_connect_error());
 }
 ?>
