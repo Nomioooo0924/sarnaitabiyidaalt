@@ -29,7 +29,7 @@ if (isset($_GET['action']) && $_GET['action'] == "remove" && isset($_GET['id']))
     exit;
 }
 
-echo "<h2>🛒 Миний сагс</h2>";
+echo "<h2 style='text-align:left'>🛒 Миний сагс</h2>";
 
 $total = 0;
 
@@ -61,3 +61,4 @@ if (!empty($_SESSION['cart'])) {
 
 echo "<br><br><a href='index.php'>⬅️ Дахин бараа саглах</a>";
 ?>
+<link rel="stylesheet" href="style.css">

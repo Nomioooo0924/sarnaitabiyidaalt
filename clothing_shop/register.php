@@ -20,8 +20,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <h2>Бүртгүүлэх</h2>
 <form method="post">
-    Нэр: <input type="text" name="name" required><br>
-    И-мэйл: <input type="email" name="email" required><br>
-    Нууц үг: <input type="password" name="password" required><br>
+<label for="">Нэр:</label> 
+    <input type="text" name="name" required><br><br>
+    <label for="">И-мэйл:</label>
+    <input type="email" name="email" required><br><br>
+    <label for="">Нууц үг:</label> 
+    <input type="password" name="password" required><br><br>
     <button type="submit">Бүртгүүлэх</button>
 </form>
+<link rel="stylesheet" href="style.css">

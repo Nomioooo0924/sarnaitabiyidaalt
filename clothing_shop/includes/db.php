@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root"; // таны AMPP-д root хэрэглэдэг
-$password = "Nomio0924"; // таны өгсөн нууц үг
+$password = "mysql"; // таны өгсөн нууц үг
 $dbname = "clothing_shop"; // таны датабэйсийн нэр
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);

@@ -1,5 +1,6 @@
 <?php session_start(); ?>
 <nav>
+    <link rel="stylesheet" href="style.css">
     <a href="index.php">Нүүр</a> |
     <a href="cart.php">Сагс</a> |
     <?php if (isset($_SESSION['user_id'])): ?>

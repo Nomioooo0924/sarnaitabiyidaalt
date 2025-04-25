@@ -24,10 +24,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
-
-<h2>Нэвтрэх</h2>
-<form method="post">
-    И-мэйл: <input type="email" name="email" required><br>
-    Нууц үг: <input type="password" name="password" required><br>
+<link rel="stylesheet" href="style.css">
+<h2 >Нэвтрэх</h2>
+<form method="post" class=login>
+    <label for="">И-мэйл:</label>
+    <input type="email" name="email" required><br><br>
+    <label for="">Нууц үг:</label> 
+    <input type="password" name="password" required><br><br>
     <button type="submit">Нэвтрэх</button>
 </form>
