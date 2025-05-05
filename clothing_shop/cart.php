@@ -59,6 +59,6 @@ if (!empty($_SESSION['cart'])) {
     echo "Сагс хоосон байна.";
 }
 
-echo "<br><br><a href='index.php'>⬅️ Дахин бараа саглах</a>";
+echo "<br><br><a href='index.php'>⬅️ Сагсанд бараа нэмэх</a>";
 ?>
 <link rel="stylesheet" href="style.css">

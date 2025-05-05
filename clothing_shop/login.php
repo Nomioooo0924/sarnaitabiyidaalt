@@ -1,4 +1,5 @@
 <?php
+// includes/db.php-г холбоно (чи энэ файлаа байгаа гэж үзсэн)
 include 'includes/db.php';
 session_start();
 
@@ -10,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $res = $stmt->get_result();
-    $user = $res->fetch_assoc();
+    $user = $res->fetch_assoc();    
 
     if ($user && password_verify($pass, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
@@ -20,16 +21,103 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: $redirect");
         exit;
     } else {
-        echo "<p>Нууц үг эсвэл и-мэйл буруу байна.</p>";
+        $error = "Нууц үг эсвэл и-мэйл буруу байна.";
     }
 }
 ?>
-<link rel="stylesheet" href="style.css">
-<h2 >Нэвтрэх</h2>
-<form method="post" class=login>
-    <label for="">И-мэйл:</label>
-    <input type="email" name="email" required><br><br>
-    <label for="">Нууц үг:</label> 
-    <input type="password" name="password" required><br><br>
-    <button type="submit">Нэвтрэх</button>
-</form>
+<!DOCTYPE html>
+<html lang="mn">
+<head>
+    <meta charset="UTF-8">
+    <title>Нэвтрэх</title>
+    <style>
+        /* --- Энд CSS --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+        body {
+            background: linear-gradient(to right, #6a11cb, #2575fc);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .login-container {
+            background: #fff;
+            padding: 40px 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            width: 350px;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .login-container h2 {
+            margin-bottom: 25px;
+            color: #333;
+        }
+        .login-container form {
+            display: flex;
+            flex-direction: column;
+        }
+        .login-container input {
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        .login-container button {
+            background: #6a11cb;
+            border: none;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .login-container button:hover {
+            background: #2575fc;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .login-container .register-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+        .login-container .register-link a {
+            color: #6a11cb;
+            text-decoration: none;
+        }
+        .login-container .register-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h2>Нэвтрэх</h2>
+        <?php if (!empty($error)): ?>
+            <div class="error-message"><?php echo $error; ?></div>
+        <?php endif; ?>
+        <form method="post">
+            <input type="email" name="email" placeholder="И-мэйл" required>
+            <input type="password" name="password" placeholder="Нууц үг" required>
+            <button type="submit">Нэвтрэх</button>
+        </form>
+        <div class="register-link">
+            Бүртгэлгүй юу? <a href="register.php">Бүртгүүлэх</a>
+        </div>
+    </div>
+</body>
+</html>
