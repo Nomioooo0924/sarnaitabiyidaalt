@@ -13,7 +13,6 @@ include 'includes/header.php';
     </div>
     <ul class="navbar-menu">
         <li><a href="index.php">Нүүр</a></li>
-      
         <li><a href="holboo.php">Холбоо барих</a></li>
         <?php if (isset($_SESSION['user_id'])): ?>
             <li><a href="#">Сайн байна уу, <?= htmlspecialchars($_SESSION['name']) ?></a></li>
@@ -24,7 +23,7 @@ include 'includes/header.php';
         <?php endif; ?>
     </ul>
 
-    <!-- 🔍 Search form added here -->
+    <!-- 🔍 Search form -->
     <div class="navbar-icons">
         <form action="search.php" method="GET" style="display: inline; margin: 0;">
             <input type="text" name="query" placeholder="Хайх..." style="padding: 5px; border-radius: 5px; border: 1px solid #ccc;">
@@ -34,41 +33,67 @@ include 'includes/header.php';
         </form>
 
         <?php if (isset($_SESSION['user_id'])): ?>
-    <!-- Хэрэглэгчийн бүртгэлд орох линк -->
-    <a href="profile.php"><i class="fa fa-user"></i> </a>
-   
-<?php else: ?>
-    <a href="#"><i class="fa fa-user"></i> </a>
-<?php endif; ?>
-
+            <a href="profile.php"><i class="fa fa-user"></i></a>
+        <?php else: ?>
+            <a href="#"><i class="fa fa-user"></i></a>
+        <?php endif; ?>
     </div>
-
 </nav>
-<div class="container">
-    <form method="GET" action="" class="category-form">
-        <label for="category">Ангилал:</label>
-        <select name="category" id="category" class="category-select" onchange="this.form.submit()">
-            <option value="">Бүгд</option>
-            <?php
-            // Ангиллуудын массив
-            $categories = ['Цамц', 'Өмд', 'Дотуур хувцас', 'Гутал', 'Гадуур хувцас', 'Малгай', 'Даашинз', 'Пиджак', 'Спорт хувцас', 'Унтлагын хувцас'];
-            $selectedCategory = $_GET['category'] ?? '';
 
-            foreach ($categories as $cat) {
-                $selected = ($selectedCategory === $cat) ? 'selected' : '';
-                echo "<option value='$cat' $selected>$cat</option>";
-            }
-            ?>
-        </select>
+<div class="container">
+    <!-- ✅ Фильтер форм -->
+    <form method="GET" action="" class="filter-form">
+        <div class="filter-row">
+            <div class="filter-group">
+                <label for="category">Ангилал:</label>
+                <select name="category" id="category" class="category-select" onchange="this.form.submit()">
+                    <option value="">Бүгд</option>
+                    <?php
+                    $categories = ['Цамц', 'Өмд', 'Дотуур хувцас', 'Гутал', 'Гадуур хувцас', 'Малгай', 'Даашинз', 'Пиджак', 'Спорт хувцас', 'Унтлагын хувцас'];
+                    sort($categories); // Үсгийн дараалалд оруулна
+                    $selectedCategory = $_GET['category'] ?? '';
+                    foreach ($categories as $cat) {
+                        $selected = ($selectedCategory === $cat) ? 'selected' : '';
+                        echo "<option value='$cat' $selected>$cat</option>";
+                    }
+                    ?>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="sort">Үнэ:</label>
+                <select name="sort" id="sort" class="category-select" onchange="this.form.submit()">
+                    <option value="">Энгийн</option>
+                    <option value="asc" <?= (($_GET['sort'] ?? '') === 'asc') ? 'selected' : '' ?>>Үнэ өсөхөөр</option>
+                    <option value="desc" <?= (($_GET['sort'] ?? '') === 'desc') ? 'selected' : '' ?>>Үнэ буурахаар</option>
+                </select>
+            </div>
+        </div>
     </form>
-  
-    <!-- Product List -->
+
+    <!-- ✅ Product List -->
     <div class="product-list">
         <?php
+        $selectedCategory = $_GET['category'] ?? '';
+        $sort = $_GET['sort'] ?? '';
+
         $sql = "SELECT * FROM products";
+        $conditions = [];
+
         if (!empty($selectedCategory)) {
-            $sql .= " WHERE category = '" . $conn->real_escape_string($selectedCategory) . "'";
+            $conditions[] = "category = '" . $conn->real_escape_string($selectedCategory) . "'";
         }
+
+        if (!empty($conditions)) {
+            $sql .= " WHERE " . implode(" AND ", $conditions);
+        }
+
+        if ($sort === 'asc') {
+            $sql .= " ORDER BY price ASC";
+        } elseif ($sort === 'desc') {
+            $sql .= " ORDER BY price DESC";
+        }
+
         $res = $conn->query($sql);
 
         while ($row = $res->fetch_assoc()) {

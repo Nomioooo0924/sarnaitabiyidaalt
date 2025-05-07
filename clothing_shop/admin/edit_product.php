@@ -28,48 +28,112 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $desc = $_POST['description'];
     $price = $_POST['price'];
     $image = $_POST['image'];
-    // Ангилал болон бусад утгуудыг шалгах
-    $category = isset($_POST['category']) && $_POST['category'] != '' ? $_POST['category'] : $category;  // Хэрэв `$_POST['category']` хоосон бол өмнөх утга хадгалагдана
+    $category = isset($_POST['category']) && $_POST['category'] != '' ? $_POST['category'] : $category;
 
-    // Барааг шинэчилж оруулах
     $stmt = $conn->prepare("UPDATE products SET name = ?, description = ?, price = ?, image = ?, category = ? WHERE id = ?");
     $stmt->bind_param("ssdssi", $name, $desc, $price, $image, $category, $id);
     if ($stmt->execute()) {
-        echo "✅ Амжилттай засагдлаа! ";
+        echo "<p style='color: green;'>✅ Амжилттай засагдлаа!</p>";
     } else {
-        echo "Алдаа: " . $conn->error;
+        echo "<p style='color: red;'>Алдаа: " . $conn->error . "</p>";
     }
 }
 ?>
 
-<a href="admin_panel.php" style="text-decoration:none; color:#333;">
-    <i class="fas fa-arrow-left"></i>
-</a>
-<h2>Засах бараа: <?php echo $name; ?></h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Бараа засах</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        form.edit-form {
+            max-width: 500px;
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #1f8dd6;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #156ba3;
+        }
+
+        a {
+            text-decoration: none;
+            color: #1f1f1f;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<a href="admin_panel.php"><i class="fas fa-arrow-left"></i> Буцах</a>
+<h2>✏️ Засах бараа: <?php echo htmlspecialchars($name); ?></h2>
+
 <form method="post" class="edit-form">
-    <label for="">Нэр: </label>
-    <input type="text" name="name" value="<?php echo $name; ?>"><br><br>
-    <label for="">Тайлбар:</label>
-    <input type="text" name="description" value="<?php echo $description; ?>"><br><br>
-    <label for="">Үнэ:</label> 
-    <input type="number" name="price" step="0.01" value="<?php echo $price; ?>"><br><br>
-    <label for="">Зургийн нэр (assets дотор):</label> 
-    <input type="text" name="image" value="<?php echo $image; ?>"><br><br>
-    <label for="">Ангилал:</label> 
+    <label>Нэр:</label>
+    <input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>">
+
+    <label>Тайлбар:</label>
+    <input type="text" name="description" value="<?php echo htmlspecialchars($description); ?>">
+
+    <label>Үнэ:</label>
+    <input type="number" name="price" step="0.01" value="<?php echo htmlspecialchars($price); ?>">
+
+    <label>Зургийн нэр (assets дотор):</label>
+    <input type="text" name="image" value="<?php echo htmlspecialchars($image); ?>">
+
+    <label>Ангилал:</label>
     <select name="category">
-        <option value="Цамц" <?= $category == 'Цамц' ? 'selected' : 'Цамц' ?>>Цамц</option>
-        <option value="Өмд" <?= $category == 'Өмд' ? 'selected' : '' ?>>Өмд</option>
-        <option value="Дотуур хувцас" <?= $category == 'Дотуур хувцас' ? 'selected' : '' ?>>Дотуур хувцас</option>
-        <option value="Гутал" <?= $category == 'Гутал' ? 'selected' : '' ?>>Гутал</option>
-        <option value="Гадуур хувцас" <?= $category == 'Гадуур хувцас' ? 'selected' : '' ?>>Гадуур хувцас</option>
-        <option value="Даашинз" <?= $category == 'Даашинз' ? 'selected' : '' ?>>Даашинз</option>
-        <option value="Пиджак" <?= $category == 'Пиджак' ? 'selected' : '' ?>>Пиджак</option>
-        <option value="Спорт хувцас" <?= $category == 'Спорт хувцас' ? 'selected' : '' ?>>Спорт хувцас</option>
-        <option value="Унтлагын хувцас" <?= $category == 'Унтлагын хувцас' ? 'selected' : '' ?>>Унтлагын хувцас</option>
-    </select><br><br>
+        <?php
+        $categories = ["Цамц", "Өмд", "Дотуур хувцас", "Гутал", "Гадуур хувцас", "Даашинз", "Пиджак", "Спорт хувцас", "Унтлагын хувцас"];
+        foreach ($categories as $cat) {
+            $selected = ($category == $cat) ? 'selected' : '';
+            echo "<option value=\"$cat\" $selected>$cat</option>";
+        }
+        ?>
+    </select>
+
     <button type="submit">Шинэчлэх</button>
 </form>
 
-
-<link rel="stylesheet" href="../style.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</body>
+</html>

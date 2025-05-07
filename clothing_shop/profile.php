@@ -35,7 +35,7 @@ if (isset($_SESSION['user_id'])) {
     <p><strong>Хаяг:</strong> <?= htmlspecialchars($user['address']) ?></p>
 
     <a href="profile_edit.php">Профайлаа засах</a>
-    <a href="logout.php" class="btn-logout">Гарах</a>
+    <a href="index.php" class="btn-logout">Буцах</a>
 </div>
 
 </body>
