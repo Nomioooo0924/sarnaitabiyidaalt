@@ -15,9 +15,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $price = $_POST['price'];
     $image = $_POST['image'];
     $category = $_POST['category'];
+    $brand = $_POST['brand'];
 
-    $stmt = $conn->prepare("INSERT INTO products (name, description, price, image, category) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $name, $desc, $price, $image, $category);
+
+    $stmt = $conn->prepare("INSERT INTO products (name, description, price, image, category,brand ) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $name, $desc, $price, $image, $category, $brand);
     if ($stmt->execute()) {
         $success = "✅ Амжилттай нэмэгдлээ!";
     } else {
@@ -126,9 +128,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form method="post">
         <label>Барааны нэр</label>
         <input type="text" name="name" required>
+        <label>Бренд</label>
+        <input type="text" name="brand" required>
 
         <label>Тайлбар</label>
         <input type="text" name="description" required>
+
+        <label>Улирал</label>
+        <input type="text" name="uliral" required >
+        
+        <label>Насны ангилал</label>
+        <input type="text" name="nasangilal" required >
+        
+      
+        <label>Ерөнхий өнгө</label>
+        <input type="text" name="yrunhiungu" required >
 
         <label>Үнэ (₮)</label>
         <input type="number" name="price" required step="0.01">
